@@ -1,17 +1,25 @@
 const express = require('express');
+
 const app = express();
 
-app.get('/test-playback', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
+app.use(express.json());
 
-  res.send({
-    start_call_playback: {
-      playback_to: "callee",
-      type: "text",
-      value: "Hello, this is a test IVR from Exotel"
-    }
-  });
+app.get('/', (req, res) => {
+    res.send('Exotel API Running');
+});
+
+app.post('/exotel/webhook', (req, res) => {
+
+    console.log(req.body);
+
+    res.status(200).json({
+        status: 'success',
+        message: 'Webhook received'
+    });
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT);
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
