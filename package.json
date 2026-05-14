@@ -1,5 +1,5 @@
 {
-  "name": "exotel-ivr-test",
+  "name": "exotel-api",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
