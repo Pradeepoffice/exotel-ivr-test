@@ -15,7 +15,7 @@ app.get('/customer/validate', (req, res) => {
 
     console.log(req.query);
 
-    let customerNumber = req.query.From;
+    let customerNumber = req.query.CallFrom;
 
     // Normalize number
     customerNumber = customerNumber.trim();
