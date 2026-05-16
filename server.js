@@ -2,20 +2,35 @@ const express = require('express');
 
 const app = express();
 
+// Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// Health Check API
 app.get('/', (req, res) => {
     res.send('Exotel API Running');
 });
 
+// Exotel Passthru Validation API
 app.get('/customer/validate', (req, res) => {
 
     console.log('Passthru Request Received');
 
     console.log(req.query);
 
-    let customerNumber = req.query.CallFrom;
+    // Read customer number from Exotel Passthru
+    let customerNumber = req.query.CallFrom || req.query.From;
+
+    // Check if number exists
+    if (!customerNumber) {
+
+        console.log('Customer Number Missing');
+
+        return res
+            .status(400)
+            .type('text/plain')
+            .send('{"select":"number_missing"}');
+    }
 
     // Normalize number
     customerNumber = customerNumber.trim();
@@ -24,21 +39,34 @@ app.get('/customer/validate', (req, res) => {
 
     console.log('Normalized Number:', customerNumber);
 
+    // Sample Registered Numbers
     const registeredNumbers = [
         '9880847047',
         '9790571549'
     ];
 
+    // Validation Logic
     if (registeredNumbers.includes(customerNumber)) {
 
-        return res.status(200).send('registered');
+        console.log('Customer Registered');
+
+        return res
+            .status(200)
+            .type('text/plain')
+            .send('{"select":"registered"}');
 
     } else {
 
-        return res.status(302).send('not_registered');
+        console.log('Customer Not Registered');
+
+        return res
+            .status(200)
+            .type('text/plain')
+            .send('{"select":"not_registered"}');
     }
 });
 
+// Start Server
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
