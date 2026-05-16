@@ -1,45 +1,29 @@
-const express = require('express');
+app.get('/customer/validate', (req, res) => {
 
-const app = express();
+    console.log('Passthru Request Received');
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+    console.log(req.query);
 
-app.get('/', (req, res) => {
-    res.send('Exotel API Running');
-});
+    let customerNumber = req.query.From;
 
-app.post('/customer/validate', (req, res) => {
+    // Normalize number
+    customerNumber = customerNumber.trim();
+    customerNumber = customerNumber.replace(/^91/, '');
+    customerNumber = customerNumber.replace(/^0/, '');
 
-    console.log('Exotel Request Received');
-
-    console.log(req.body);
-
-    const customerNumber = req.body.From;
+    console.log('Normalized Number:', customerNumber);
 
     const registeredNumbers = [
-        '09880847047',
-        '09790571549'
+        '9880847047',
+        '9790571549'
     ];
 
     if (registeredNumbers.includes(customerNumber)) {
 
-        return res.status(200).json({
-            status: 'registered',
-            //customerNumber: customerNumber
-        });
+        return res.status(200).send('registered');
 
     } else {
 
-        return res.status(200).json({
-            status: 'not_registered',
-            //customerNumber: customerNumber
-        });
+        return res.status(302).send('not_registered');
     }
-});
-
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
 });
