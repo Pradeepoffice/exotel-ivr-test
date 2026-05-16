@@ -1,3 +1,14 @@
+const express = require('express');
+
+const app = express();
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+app.get('/', (req, res) => {
+    res.send('Exotel API Running');
+});
+
 app.get('/customer/validate', (req, res) => {
 
     console.log('Passthru Request Received');
@@ -26,4 +37,10 @@ app.get('/customer/validate', (req, res) => {
 
         return res.status(302).send('not_registered');
     }
+});
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
