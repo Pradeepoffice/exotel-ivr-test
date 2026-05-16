@@ -1,25 +1,31 @@
-const express = require('express');
+app.post('/customer/validate', (req, res) => {
 
-const app = express();
-
-app.use(express.json());
-
-app.get('/', (req, res) => {
-    res.send('Exotel API Running');
-});
-
-app.post('/exotel/webhook', (req, res) => {
+    console.log('Exotel Request Received');
 
     console.log(req.body);
 
-    res.status(200).json({
-        status: 'success',
-        message: 'Webhook received'
-    });
-});
+    // Read customer number from Exotel payload
+    const customerNumber = req.body.From;
 
-const PORT = process.env.PORT || 3000;
+    // Sample registered numbers
+    const registeredNumbers = [
+        '09880847047',
+        '09790571549'
+    ];
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    // Validation Logic
+    if (registeredNumbers.includes(customerNumber)) {
+
+        return res.status(200).json({
+            status: 'registered',
+            customerNumber: customerNumber
+        });
+
+    } else {
+
+        return res.status(200).json({
+            status: 'not_registered',
+            customerNumber: customerNumber
+        });
+    }
 });
