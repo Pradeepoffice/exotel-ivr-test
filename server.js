@@ -26,14 +26,14 @@ app.post('/customer/validate', (req, res) => {
 
         return res.status(200).json({
             status: 'registered',
-            customerNumber: customerNumber
+            //customerNumber: customerNumber
         });
 
     } else {
 
         return res.status(200).json({
             status: 'not_registered',
-            customerNumber: customerNumber
+            //customerNumber: customerNumber
         });
     }
 });
