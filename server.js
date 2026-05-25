@@ -41,7 +41,7 @@ app.get('/customer/validate', (req, res) => {
 
     // Sample Registered Numbers
     const registeredNumbers = [
-        '9880847047',
+        '8050064807',
         '9790571549'
     ];
 
