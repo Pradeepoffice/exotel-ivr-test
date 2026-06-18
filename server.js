@@ -43,7 +43,8 @@ app.get('/customer/validate', (req, res) => {
     const registeredNumbers = [
         '8050064807',
         '9790571549',
-        '7016390092'
+        '7016390092',
+        '9266513977'
     ];
 
     // Validation Logic
